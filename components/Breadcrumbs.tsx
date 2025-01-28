@@ -29,7 +29,7 @@ function Breadcrumbs() {
                             <BreadcrumbSeparator/>
                         <BreadcrumbItem>
                             {isLast ? (
-                                <BreadcrumbPage className="text-gray-300 font-light lowercase">{segment}</BreadcrumbPage>
+                                <BreadcrumbPage className="text-gray-300 font-light lowercase text-sm md:text-base truncate text-center">{segment}</BreadcrumbPage>
                             ):(
                                 <BreadcrumbLink href={href}>{segment}</BreadcrumbLink>
                             )}

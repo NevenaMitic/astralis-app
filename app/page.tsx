@@ -49,7 +49,7 @@ export default function Home() {
       </div>
       <div className="absolute top-0  p-4 left-0 z-[10] flex space-x-2 text-white items-center animate-pulse">
         <ArrowLeftCircle className="w-12 h-12" />
-        <h1 className="font-bold"> Get started with creating a New Document</h1>
+        <h1 className="font-bold text-sm md:text-lg break-words"> Get started with creating a New Document</h1>
 
       </div>
       <Image

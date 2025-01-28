@@ -23,7 +23,7 @@ export default function RootLayout({
         <Header/>
         <div className="flex min-h-screen">
           <SideBar/>
-          <div className="flex-1 bg-darkPurple overflow-y-auto  overflow-hidden scrollbar-hide"> {children} </div>
+          <div className="flex-1 bg-darkPurple overflow-y-auto overflow-hidden scrollbar-hide"> {children} </div>
         </div>
         <Toaster position="top-center"/>
       </body>

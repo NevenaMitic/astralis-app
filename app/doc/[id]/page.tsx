@@ -33,7 +33,7 @@ function DocumentPage({
   }
 
   return (
-    <div className="flex flex-col p-5 flex-1 min-h-screen">
+    <div className="flex flex-col p-0 md:p-5 lg:p-5 flex-1 min-h-screen">
       <Document id={id} />
     </div>
   );
