@@ -13,11 +13,8 @@ import ManageUsers from "./ManageUsers";
 import Avatars from "./Avatars";
 
 function Document({ id }: { id: string }) {
-    if (!id) {
-        return <p>Error: Missing document ID.</p>;
-    }
-
-    const [data, loading, error] = useDocumentData(doc(db, "documents", id));
+    
+    const [data] = useDocumentData(doc(db, "documents", id));
     const [input, setInput] = useState("");
     const [isUpdating, startTransition] = useTransition();
     const isOwner = useOwner();
@@ -39,11 +36,10 @@ function Document({ id }: { id: string }) {
             });
         }
     };
-
-    if (error) {
-        return <p>Error: {error.message}</p>;
+    if (!id) {
+        return <p>Error: Missing document ID.</p>;
     }
-
+    
     return (
         <div className="flex-1 h-full bg-white p-5">
             <div className="flex max-w-6xl mx-auto justify-between pb-5">

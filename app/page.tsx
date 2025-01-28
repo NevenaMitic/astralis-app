@@ -17,7 +17,7 @@ export default function Home() {
             </span>
           </h1>
           <p className="text-gray-200 hidden md:block">
-            Astralis isn&apos;t just a tool—it's a revolution in the way you create,
+            Astralis isn&apos;t just a tool—it&apos;s  a revolution in the way you create,
             collaborate, and communicate. Seamlessly edit, translate with AI precision,
             and discuss your work in real-time with ChatGPT. Take your documents to
             new heights.

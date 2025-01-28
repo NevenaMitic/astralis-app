@@ -34,7 +34,7 @@ const languages: Language[] = [
 function TranslateDocument({ doc }: { doc: Y.Doc }) {
     const [isOpen, setIsOpen] = useState(false);
     const [summary, SetSummary] = useState("");
-    const [question, SetQuestion] = useState("");
+    const [question] = useState("");
     const [language, setLanguage] = useState<string>("");
     const [isPending, startTransition] = useTransition();
 

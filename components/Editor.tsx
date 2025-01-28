@@ -18,31 +18,29 @@ import ChatToDocument from "./ChatToDocument";
 
 type EditorProps = {
     doc:Y.Doc;
-    provider: any;
+    provider: LiveblocksYjsProvider;
     darkMode: boolean;
 };
 function BlockNote({doc, provider, darkMode}: EditorProps) {
     const userInfo = useSelf((me) => me.info);
-    console.log("User Info:", userInfo);
 
     const editor: BlockNoteEditor = useCreateBlockNote({
         collaboration: {
             provider,
             fragment: doc.getXmlFragment("document-store"),
             user: {
-                name: userInfo?.name! || "Unknown User",
-                color: stringToColor(userInfo?.email! || "default@example.com"),
-            }
-        }
-    })
+                name: userInfo?.name || "Unknown User",
+                color: stringToColor(userInfo?.email || "default@example.com"),
+            },
+        },
+    });
+
   return (
     <div className="relative max-w-6xl mx-auto">
         <BlockNoteView 
         className="min-h-screen "
         editor={editor}
-        theme={
-            darkMode ? "dark" : "light"
-        }
+        theme={darkMode ? "dark" : "light"}
         />
     </div>
   )
@@ -55,6 +53,8 @@ function Editor() {
     const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
+        if (!room) return;
+
         const yDoc = new Y.Doc();
         const yProvider = new LiveblocksYjsProvider(room, yDoc);
         setDoc(yDoc);
@@ -62,15 +62,15 @@ function Editor() {
 
         return () => {
             yDoc?.destroy();
-            yProvider?.destroy();
-        }
+            yProvider.destroy();
+        };
     },[room]);
 
     if (!doc || !provider) {
         return null;
     }
 
-    const style = `hover: text-white ${
+    const buttonStyle = `hover: text-white ${
         darkMode
         ? "text-gray-300 bg-gray-700 hover:bg-gray-100 hover:text-gray-700"
         : "text-gray-700 bg-gray-200 hover:bg-gray-300 hover:text-gray-700"
@@ -82,7 +82,7 @@ function Editor() {
             <TranslateDocument doc={doc} />
             <ChatToDocument doc={doc} />
             {/*Dark Mode*/}
-            <Button className={style} onClick={() => setDarkMode(!darkMode)}> 
+            <Button className={buttonStyle} onClick={() => setDarkMode(!darkMode)}> 
                 {darkMode ? <SunIcon/> : <MoonIcon/>}
             </Button>
         </div>

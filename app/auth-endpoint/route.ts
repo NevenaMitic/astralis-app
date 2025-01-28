@@ -12,33 +12,36 @@ export async function POST(req: NextRequest) {
         return;
     }
     
-    const { userId, sessionClaims } = await auth();
+    const { sessionClaims } = await auth();
     const { room } = await req.json();
 
-    const session = liveblocks.prepareSession(sessionClaims?.email!, {
+    if (!sessionClaims?.email || !sessionClaims?.fullName || !sessionClaims?.image) {
+        return NextResponse.json({ message: "No data about the user" }, { status: 400 });
+    }
+    const session = liveblocks.prepareSession(sessionClaims.email, {
         userInfo: {
-            name: sessionClaims?.fullName!,
-            email: sessionClaims?.email!,
-            avatar: sessionClaims?.image!
+            name: sessionClaims?.fullName,
+            email: sessionClaims?.email,
+            avatar: sessionClaims?.image
         },
     });
 
     const usersInRoom = await adminDb
     .collectionGroup("rooms")
-    .where("userId", "==", sessionClaims?.email)
+    .where("userId", "==", sessionClaims.email)
     .get();
 
-    const userInRoom = usersInRoom.docs.find((doc) => doc.id === room);
-
-    if (userInRoom?.exists) {
-        session.allow(room, session.FULL_ACCESS);
-        const { body, status } = await session.authorize();
-
-        return new Response(body, { status });
-    } else {
-        return NextResponse.json (
-            {message: " You are not in this room"},
-            {status: 403 }
-        );
+    if (usersInRoom.empty) {
+        return NextResponse.json({ message: "Niste u ovoj sobi" }, { status: 403 });
     }
+
+    const userInRoom = usersInRoom.docs.find((doc) => doc.id === room);
+    if (!userInRoom) {
+        return NextResponse.json({ message: "Niste u ovoj sobi" }, { status: 403 });
+    }
+
+    session.allow(room, session.FULL_ACCESS);
+    const { body, status } = await session.authorize();
+
+    return new Response(body, { status });
 }
