@@ -13,12 +13,6 @@ Astralis is a **Next.js collaborative document application**, similar to Notion,
 
 ## Installation
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/your-repo/astralis.git
-cd astralis
-```
-
 ### 2. Install Dependencies
 ```bash
 npm install
